@@ -33,16 +33,25 @@
 	NSURL* imageURL;
 	UIImage* placeholderImage;
 	id<EGOImageViewDelegate> delegate;
+    
+    BOOL cropped;
+    CGSize cropSize;
+    
 }
 
 - (id)initWithPlaceholderImage:(UIImage*)anImage; // delegate:nil
 - (id)initWithPlaceholderImage:(UIImage*)anImage delegate:(id<EGOImageViewDelegate>)aDelegate;
+- (id)initWithPlaceholderImage:(UIImage *)anImage cropped:(BOOL)isCropped size:(CGSize)theCropSize;
+
 
 - (void)cancelImageLoad;
 
 @property(nonatomic,retain) NSURL* imageURL;
 @property(nonatomic,retain) UIImage* placeholderImage;
 @property(nonatomic,assign) id<EGOImageViewDelegate> delegate;
+@property(nonatomic) BOOL cropped;
+@property(nonatomic) CGSize cropSize;
+
 @end
 
 @protocol EGOImageViewDelegate<NSObject>

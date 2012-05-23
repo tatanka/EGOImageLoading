@@ -26,9 +26,11 @@
 
 #import "EGOImageView.h"
 #import "EGOImageLoader.h"
+#import "UIImage+ProportionalFill.h"
+
 
 @implementation EGOImageView
-@synthesize imageURL, placeholderImage, delegate;
+@synthesize imageURL, placeholderImage, delegate, cropped, cropSize;
 
 - (id)initWithPlaceholderImage:(UIImage*)anImage {
 	return [self initWithPlaceholderImage:anImage delegate:nil];	
@@ -41,6 +43,15 @@
 	}
 	
 	return self;
+}
+
+- (id)initWithPlaceholderImage:(UIImage *)anImage cropped:(BOOL)isCropped size:(CGSize)theCropSize
+{
+    
+    self.cropSize = theCropSize;
+    self.cropped = isCropped;
+    return [self initWithPlaceholderImage:anImage delegate:nil];
+    
 }
 
 - (void)setImageURL:(NSURL *)aURL {
