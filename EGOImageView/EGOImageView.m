@@ -33,13 +33,24 @@
 @synthesize imageURL, placeholderImage, delegate, cropped, cropSize;
 
 - (id)initWithPlaceholderImage:(UIImage*)anImage {
+    
 	return [self initWithPlaceholderImage:anImage delegate:nil];	
+    
 }
 
 - (id)initWithPlaceholderImage:(UIImage*)anImage delegate:(id<EGOImageViewDelegate>)aDelegate {
+    
 	if((self = [super initWithImage:anImage])) {
+
+        if (self.cropped) {
+            
+            anImage = [anImage imageToFitSize:self.cropSize method:MGImageResizeCropStart];
+            
+        }
+        
 		self.placeholderImage = anImage;
 		self.delegate = aDelegate;
+        
 	}
 	
 	return self;
@@ -55,10 +66,13 @@
 }
 
 - (void)setImageURL:(NSURL *)aURL {
+    
 	if(imageURL) {
+        
 		[[EGOImageLoader sharedImageLoader] removeObserver:self forURL:imageURL];
 		[imageURL release];
 		imageURL = nil;
+        
 	}
 	
 	if(!aURL) {
@@ -71,6 +85,12 @@
 
 	[[EGOImageLoader sharedImageLoader] removeObserver:self];
 	UIImage* anImage = [[EGOImageLoader sharedImageLoader] imageForURL:aURL shouldLoadWithObserver:self];
+    
+    if (self.cropped) {
+        
+        anImage = [anImage imageToFitSize:self.cropSize method:MGImageResizeCrop];
+        
+    }
 	
 	if(anImage) {
 		self.image = anImage;
